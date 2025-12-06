@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 Michael's Vegas Adventure 🛋️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .stats-bar {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .scenario-box {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .scenario-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .scenario-text {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .choice-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .choice-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 12px;
+            font-size: 1.3em;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+        }
+
+        .outcome {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .outcome-text {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .final-results {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .final-emoji {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        .final-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .final-stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .final-verdict {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .play-again-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .play-again-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .risk-safe { color: #28a745; }
+        .risk-mild { color: #ffc107; }
+        .risk-moderate { color: #fd7e14; }
+        .risk-high { color: #dc3545; }
+        .risk-guaranteed { color: #6f42c1; font-weight: bold; }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .choice-btn {
+                font-size: 1em;
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="welcome-screen">
+            <h1>🎰 Michael's Vegas Adventure 🛋️</h1>
+            <p class="subtitle">Will he sleep on the couch when he gets home?</p>
+            <div style="text-align: center; margin: 30px 0; color: #666; line-height: 1.8;">
+                <p>Michael is in Vegas, and you control his decisions!</p>
+                <p>Navigate through 5 scenarios and try to keep his spending under control...</p>
+                <p><strong>Or watch him spiral into couch-sleeping territory!</strong></p>
+            </div>
+            <button class="start-btn" onclick="startGame()">🎲 Start the Adventure</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <h1>🎰 Michael's Vegas Adventure</h1>
+
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-label">💸 Total Spent</div>
+                    <div class="stat-value" id="total-spent">$0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">📊 Scenario</div>
+                    <div class="stat-value" id="scenario-count">1/5</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">🛋️ Couch Risk</div>
+                    <div class="stat-value" id="couch-risk">SAFE</div>
+                </div>
+            </div>
+
+            <div id="scenario-content"></div>
+        </div>
+
+        <div id="results-screen" class="hidden">
+            <div class="final-results">
+                <div class="final-emoji" id="final-emoji">🎰</div>
+                <h2 class="final-title">Michael's Trip Results</h2>
+
+                <div class="final-stats">
+                    <div style="font-size: 1.5em; margin-bottom: 10px;">
+                        💸 Total Spent: <strong id="final-spent">$0</strong>
+                    </div>
+                    <div style="font-size: 1.3em;">
+                        🛋️ Final Risk: <span id="final-risk">SAFE</span>
+                    </div>
+                </div>
+
+                <div class="final-verdict" id="final-verdict"></div>
+
+                <button class="play-again-btn" onclick="location.reload()">🔄 Play Again</button>
+
+                <div style="margin-top: 30px; color: #999; font-size: 0.9em;">
+                    Share this game with your friends!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            totalSpent: 0,
+            currentScenario: 0,
+            scenarios: []
+        };
+
+        const scenarioPool = [
+            {
+                emoji: '🃏',
+                title: 'Blackjack Table',
+                text: "Michael sits down at a $25 blackjack table. The dealer is on a cold streak. Michael's feeling lucky...",
+                choices: [
+                    { text: '💵 Bet $50 (conservative)', amount: 50 },
+                    { text: '💰 Bet $100 (moderate risk)', amount: 100 },
+                    { text: '🚀 Bet $200 (YOLO mode)', amount: 200 }
+                ],
+                getOutcome: function(choice) {
+                    const outcomes = ['win', 'lose', 'lose'];
+                    const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+                    if (result === 'win') {
+                        const netLoss = choice.amount * 0.7;
+                        return {
+                            spent: netLoss,
+                            text: `💰 Blackjack! Michael WINS $${choice.amount}!<br>...but he immediately bets it again and loses $${netLoss.toFixed(0)} 😅`
+                        };
+                    } else {
+                        return {
+                            spent: choice.amount,
+                            text: `😤 Dealer hits 21. Michael loses $${choice.amount}!`
+                        };
+                    }
+                }
+            },
+            {
+                emoji: '🎰',
+                title: 'Slot Machine Temptation',
+                text: "Michael walks past a flashy 'MEGA FORTUNE WHEEL' slot machine with dancing lights!",
+                choices: [
+                    { text: '🚶 Walk away (smart choice)', amount: 0 },
+                    { text: '🎲 Put in $20 (just for fun)', amount: 20 },
+                    { text: '💎 Put in $100 (chase the jackpot)', amount: 100 }
+                ],
+                getOutcome: function(choice) {
+                    if (choice.amount === 0) {
+                        return {
+                            spent: 20,
+                            text: "✅ Michael walks away like a responsible adult!<br>...just kidding, he turned back and put in $20 anyway 😂"
+                        };
+                    } else if (choice.amount === 20) {
+                        const outcomes = ['lose', 'lose', 'small_win'];
+                        const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+                        if (result === 'small_win') {
+                            return {
+                                spent: 15,
+                                text: "🎉 Michael wins $30!<br>He cashes out... then puts $25 into another machine"
+                            };
+                        } else {
+                            return {
+                                spent: 20,
+                                text: "❌ Nothing. The $20 vanishes in 3 minutes."
+                            };
+                        }
+                    } else {
+                        const outcomes = ['lose', 'lose', 'lose', 'big_win'];
+                        const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+                        if (result === 'big_win') {
+                            return {
+                                spent: 0,
+                                text: "🎊 JACKPOT! He wins $200!<br>He keeps playing and ends up breaking even..."
+                            };
+                        } else {
+                            return {
+                                spent: 100,
+                                text: "💀 The machine eats all $100 in minutes."
+                            };
+                        }
+                    }
+                }
+            },
+            {
+                emoji: '🔴',
+                title: 'Roulette Wheel',
+                text: "Michael approaches the roulette table. Black has hit 5 times in a row. Surely red is due, right?",
+                choices: [
+                    { text: '🔴 Bet on Red ($75)', color: 'red' },
+                    { text: '⚫ Bet on Black ($75)', color: 'black' },
+                    { text: '🎯 Lucky number 7 ($50)', color: 'number' }
+                ],
+                getOutcome: function(choice) {
+                    const spin = Math.floor(Math.random() * 38);
+
+                    if (choice.color === 'number') {
+                        if (spin === 7) {
+                            return {
+                                spent: 100,
+                                text: "🎯 INCREDIBLE! Lucky number 7 hits!<br>Michael wins $1,750! (35:1 payout)<br>He celebrates by... betting $150 more and losing it 🤦<br>Net: Still up!"
+                            };
+                        } else {
+                            return {
+                                spent: 50,
+                                text: `😞 The ball lands on ${spin}. Unlucky!`
+                            };
+                        }
+                    } else {
+                        if (spin === 0 || spin === 37) {
+                            return {
+                                spent: 75,
+                                text: "💚 00! House wins. Michael loses $75"
+                            };
+                        }
+
+                        const redNumbers = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+                        const actualColor = redNumbers.includes(spin) ? 'red' : 'black';
+
+                        if (choice.color === actualColor) {
+                            return {
+                                spent: 25,
+                                text: `✅ ${actualColor.toUpperCase()}! Michael wins $75!<br>He pockets $50 and bets $100 on the next spin... loses it all`
+                            };
+                        } else {
+                            return {
+                                spent: 75,
+                                text: `❌ ${actualColor.toUpperCase()}! Michael loses $75`
+                            };
+                        }
+                    }
+                }
+            },
+            {
+                emoji: '🍹',
+                title: 'Free Drinks',
+                text: "A cocktail waitress offers Michael a free drink while he's gambling...",
+                choices: [
+                    { text: '🥤 One drink (stay sharp)', count: 1 },
+                    { text: '🍻 Three drinks (social)', count: 3 },
+                    { text: '🥴 Lost count (full Vegas mode)', count: 99 }
+                ],
+                getOutcome: function(choice) {
+                    if (choice.count === 1) {
+                        return {
+                            spent: 5,
+                            text: "😊 Michael tips $5 and keeps a clear head. Smart!"
+                        };
+                    } else if (choice.count === 3) {
+                        return {
+                            spent: 15,
+                            text: "🍻 Michael's feeling good! Tips $15 total.<br>Makes slightly worse gambling decisions..."
+                        };
+                    } else {
+                        return {
+                            spent: 130,
+                            text: "🥴 Michael can't remember how many drinks he's had...<br>He tips $30 and makes VERY questionable bets<br>...and somehow bet $100 on whether the fountain would go off 💦"
+                        };
+                    }
+                }
+            },
+            {
+                emoji: '🏈',
+                title: 'Sports Book',
+                text: "Michael sees the sports book. There's a game tonight and he's got a 'good feeling' about it...",
+                choices: [
+                    { text: '🚫 Skip it (no bet)', amount: 0 },
+                    { text: '🏆 Bet $50 on favorite team', amount: 50 },
+                    { text: '💰 Parlay bet - $100 on 3 games', amount: 100 }
+                ],
+                getOutcome: function(choice) {
+                    if (choice.amount === 0) {
+                        return {
+                            spent: 0,
+                            text: "👍 Michael shows restraint and walks away! Proud of you, Michael."
+                        };
+                    } else if (choice.amount === 50) {
+                        const outcomes = ['win', 'lose'];
+                        const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+                        if (result === 'win') {
+                            return {
+                                spent: 20,
+                                text: "🏆 His team wins! Michael collects $90!<br>Net gain: $40! Time to celebrate with... more gambling"
+                            };
+                        } else {
+                            return {
+                                spent: 50,
+                                text: "😭 His team choked in the 4th quarter. $50 gone."
+                            };
+                        }
+                    } else {
+                        const outcomes = ['lose', 'lose', 'lose', 'lose', 'big_win'];
+                        const result = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+                        if (result === 'big_win') {
+                            return {
+                                spent: -100,
+                                text: "🚀 ALL THREE GAMES HIT! Michael wins $800!<br>He's a LEGEND! ...but then loses $200 celebrating<br>Net: +$100!"
+                            };
+                        } else {
+                            return {
+                                spent: 100,
+                                text: "💸 One game loses by 1 point. Parlay busted. $100 gone."
+                            };
+                        }
+                    }
+                }
+            }
+        ];
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function startGame() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+
+            gameState = {
+                totalSpent: 0,
+                currentScenario: 0,
+                scenarios: shuffleArray(scenarioPool).slice(0, 5)
+            };
+
+            showScenario();
+        }
+
+        function getCouchRisk(spent) {
+            if (spent < 100) return { text: '😊 SAFE', class: 'risk-safe' };
+            if (spent < 200) return { text: '😬 MILD', class: 'risk-mild' };
+            if (spent < 350) return { text: '😰 MODERATE', class: 'risk-moderate' };
+            if (spent < 500) return { text: '🚨 HIGH', class: 'risk-high' };
+            return { text: '💀 GUARANTEED', class: 'risk-guaranteed' };
+        }
+
+        function updateStats() {
+            document.getElementById('total-spent').textContent = `$${Math.round(gameState.totalSpent)}`;
+            document.getElementById('scenario-count').textContent = `${gameState.currentScenario + 1}/5`;
+
+            const risk = getCouchRisk(gameState.totalSpent);
+            const riskElement = document.getElementById('couch-risk');
+            riskElement.textContent = risk.text;
+            riskElement.className = 'stat-value ' + risk.class;
+
+            const progress = ((gameState.currentScenario + 1) / 5) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function showScenario() {
+            const scenario = gameState.scenarios[gameState.currentScenario];
+            const content = document.getElementById('scenario-content');
+
+            let choicesHTML = '<div class="choices">';
+            scenario.choices.forEach((choice, index) => {
+                choicesHTML += `<button class="choice-btn" onclick="makeChoice(${index})">${choice.text}</button>`;
+            });
+            choicesHTML += '</div>';
+
+            content.innerHTML = `
+                <div class="scenario-box">
+                    <div class="scenario-title">${scenario.emoji} ${scenario.title}</div>
+                    <div class="scenario-text">${scenario.text}</div>
+                    ${choicesHTML}
+                </div>
+            `;
+
+            updateStats();
+        }
+
+        function makeChoice(choiceIndex) {
+            const scenario = gameState.scenarios[gameState.currentScenario];
+            const choice = scenario.choices[choiceIndex];
+            const outcome = scenario.getOutcome(choice);
+
+            gameState.totalSpent += outcome.spent;
+
+            const content = document.getElementById('scenario-content');
+            content.innerHTML += `
+                <div class="outcome">
+                    <div class="outcome-text">${outcome.text}</div>
+                </div>
+            `;
+
+            updateStats();
+
+            gameState.currentScenario++;
+
+            if (gameState.currentScenario < 5) {
+                setTimeout(() => {
+                    showScenario();
+                }, 3000);
+            } else {
+                setTimeout(() => {
+                    showResults();
+                }, 3000);
+            }
+        }
+
+        function showResults() {
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.remove('hidden');
+
+            const spent = Math.round(gameState.totalSpent);
+            document.getElementById('final-spent').textContent = `$${spent}`;
+
+            const risk = getCouchRisk(spent);
+            const riskElement = document.getElementById('final-risk');
+            riskElement.textContent = risk.text;
+            riskElement.className = risk.class;
+
+            let emoji, verdict;
+
+            if (spent < 100) {
+                emoji = '🎊';
+                verdict = `
+                    <strong>🏆 OUTCOME: Michael comes home a hero!</strong><br>
+                    He even brought back a nice souvenir.<br>
+                    <strong>Sleeping arrangement: 🛏️ BED (well-deserved)</strong>
+                `;
+            } else if (spent < 200) {
+                emoji = '😅';
+                verdict = `
+                    <strong>😬 OUTCOME: Michael gets a lecture but survives</strong><br>
+                    "We need to talk about your decision-making..."<br>
+                    <strong>Sleeping arrangement: 🛏️ BED (after apologizing)</strong>
+                `;
+            } else if (spent < 350) {
+                emoji = '😬';
+                verdict = `
+                    <strong>😱 OUTCOME: There's a serious conversation happening</strong><br>
+                    "You spent HOW much?!"<br>
+                    <strong>Sleeping arrangement: 🛋️ COUCH (one night)</strong>
+                `;
+            } else if (spent < 500) {
+                emoji = '😱';
+                verdict = `
+                    <strong>🚨 OUTCOME: Michael is in the doghouse</strong><br>
+                    "I can't even look at you right now."<br>
+                    <strong>Sleeping arrangement: 🛋️ COUCH (the weekend)</strong>
+                `;
+            } else {
+                emoji = '💀';
+                verdict = `
+                    <strong>💀 OUTCOME: Michael has made a huge mistake</strong><br>
+                    "Pack your pillow. You live on the couch now."<br>
+                    <strong>Sleeping arrangement: 🛋️ COUCH (indefinitely)</strong>
+                `;
+            }
+
+            document.getElementById('final-emoji').textContent = emoji;
+            document.getElementById('final-verdict').innerHTML = verdict;
+        }
+    </script>
+</body>
+</html>
